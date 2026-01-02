@@ -1,30 +1,17 @@
 package crime;
 import edu.rutgers.cs112.LL.LLNode;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
-/**
- * Students will be analyzing cybercrime incident data using hash tables (with separate chaining) 
- * and linked lists to organize and query crime records efficiently. The theme revolves around 
- * parsing, storing, and analyzing real-world crime logs from Rutgers University’s public 
- * safety database: Daily Crime & Fire Safety Log.
- * 
- * @author Anna Lu
- * @author Krish Lenka
- */
+
 public class RUCrimeDatabase {
     private LLNode<Incident>[] incidentTable; // Array of LLNodes
     private int totalIncidents;
     private static final double LOAD_FACTOR_THRESHOLD = 4.0;
 
-    /**
-     * Default constructor initializes the hash table with a size of 10.
-     * The total number of incidents is set to zero.
-     */
     public RUCrimeDatabase() {
         incidentTable = new LLNode[10];
         totalIncidents = 0;
@@ -35,7 +22,6 @@ public class RUCrimeDatabase {
      * @param incident An incident object which we will use to add to the hash table:
      */
     public void addIncident(Incident incident) {
-        // WRITE YOUR CODE HERE
         if (incident == null) return;
 
         String key = incident.getIncidentNumber();
@@ -59,7 +45,6 @@ public class RUCrimeDatabase {
      * @param filename Path to file containing incident data
      */
     public void buildIncidentTable(String inputfile) {
-        // WRITE YOUR CODE HERE
         LLNode<Incident>[] newTable = new LLNode[incidentTable.length];
         incidentTable = newTable;
         totalIncidents = 0;
@@ -110,7 +95,6 @@ public class RUCrimeDatabase {
      * This is called when the load factor exceeds a certain threshold.
      */
     public void rehash() {
-        // WRITE YOUR CODE HERE
         LLNode<Incident>[] oldTable = incidentTable;
 
     incidentTable = new LLNode[oldTable.length * 2];
@@ -131,7 +115,6 @@ public class RUCrimeDatabase {
      * @param incidentNumber The incident number of the incident to delete 
      */
     public void deleteIncident(String incidentNumber) {
-        // WRITE YOUR CODE HERE
         if (incidentNumber == null) return;
         int index = hashFunction(incidentNumber);
 
@@ -157,13 +140,7 @@ public class RUCrimeDatabase {
     }
     }
 
-    /**
-     * Iterates over another RUCrimeDatabase's incident table, and adds its incidents
-     * to this table IF they do not already exist.
-     * @param other RUCrimeDatabase to copy new incidents from
-     */
     public void join(RUCrimeDatabase other) {
-        // WRITE YOUR CODE HERE
         if (other == null) return;
 
     LLNode<Incident>[] otherTable = other.getIncidentTable();
@@ -196,13 +173,7 @@ public class RUCrimeDatabase {
     }
     }
     
-    /**
-     * Returns a list of the top K locations with the most incidents 
-     * If K > numLocations, return all locations
-     * @return ArrayList<String> containing the top K locations
-     */
     public ArrayList<String> topKLocations(int K) {
-        // WRITE YOUR CODE HERE
          String[] locations = {
         "ACADEMIC",
         "CAMPUS SERVICES",
@@ -261,14 +232,7 @@ public class RUCrimeDatabase {
     return result;
     }  
 
-    /**
-     * Returns the percentage of incidents for every category.
-     * Categories: Property, Violent,
-     *             Mischief, Trespass, or Other
-     * @return A HashMap<Category, Double> with percentage of incidents of each category
-     */
     public HashMap<Category, Double> natureBreakdown() { 
-        // WRITE YOUR CODE HERE
         HashMap<Category, Double> map = new HashMap<>();
 
     for (Category c : Category.values()) {
@@ -296,12 +260,7 @@ public class RUCrimeDatabase {
 
         }
 
-    //Given methods
-    /**
-     * DO NOT MODIFY THIS METHOD.
-     * Returns the hash table array for inspection/testing
-     * @return The array of LLNode<IncidentGroup> representing the hash table
-     */
+
     public LLNode<Incident>[] getIncidentTable() {
         return incidentTable;
     }
@@ -313,18 +272,12 @@ public class RUCrimeDatabase {
     public int numberOfIncidents() {
         return totalIncidents;
     }
-
-    /**
-     * DO NOT MODIFY THIS METHOD.
-     * Returns the index in the hash table for a given incident number.
-     * @return The index in the hash table for the incident number
-     * @param incidentNumber The incident number to hash
-     */
-    private int hashFunction(String incidentNumber) {
-        String last5Digits = incidentNumber.substring(Math.max(0, incidentNumber.length() - 5));
-        int val = Integer.parseInt(last5Digits) % incidentTable.length;
-        //System.out.println("Hashing incident number: " + last5Digits + " val: " + val);
-        return val;
+ 
+    private int hashFunction(String incidentNumber) { 
+    String last5Digits = 
+    incidentNumber.substring(Math.max(0, incidentNumber.length() - 5)); 
+    int val = Integer.parseInt(last5Digits) % incidentTable.length; 
+     System.out.println("Hashing incident number: " + last5Digits + " val: " + val); 
+     return val;
     }
-
 }
